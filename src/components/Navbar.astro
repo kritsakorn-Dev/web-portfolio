@@ -8,8 +8,8 @@ const navLinks = [
 ];
 ---
 
-<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] py-5">
-  <div id="nav-pill" class="max-w-7xl mx-auto px-6 md:px-10 py-0 flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none">
+<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] py-5 px-4 md:px-6">
+  <div id="nav-pill" class="max-w-7xl mx-auto px-2 sm:px-6 md:px-10 py-0 flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none overflow-hidden">
     <!-- Logo -->
     <a href="#" class="text-2xl font-display font-bold tracking-tight group shrink-0">
       <span class="text-light group-hover:text-accent transition-colors duration-300">K</span><span class="text-muted group-hover:text-light transition-colors duration-300">.</span>
@@ -85,12 +85,12 @@ const navLinks = [
       navbar?.classList.add('py-3');
       navbar?.classList.remove('py-5');
       navPill?.classList.add('nav-pill-scrolled');
-      navPill?.classList.remove('max-w-7xl', 'rounded-none', 'py-0', 'px-6');
+      navPill?.classList.remove('max-w-7xl', 'rounded-none', 'py-0', 'px-2', 'sm:px-6');
     } else {
       navbar?.classList.remove('py-3');
       navbar?.classList.add('py-5');
       navPill?.classList.remove('nav-pill-scrolled');
-      navPill?.classList.add('max-w-7xl', 'rounded-none', 'py-0', 'px-6');
+      navPill?.classList.add('max-w-7xl', 'rounded-none', 'py-0', 'px-2', 'sm:px-6');
     }
   });
 

@@ -23,7 +23,7 @@ const skillCategories = [
 ];
 ---
 
-<section id="skills" class="py-32 relative">
+<section id="skills" class="py-16 md:py-32 relative">
   <!-- Background accent -->
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px]"></div>
 
@@ -42,8 +42,8 @@ const skillCategories = [
     <!-- Skills Grid -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {skillCategories.map((category, i) => (
-        <div class={`reveal reveal-delay-${i + 1} glass rounded-2xl p-8 card-hover tilt-card group`}>
-          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-6 group-hover:bg-accent group-hover:text-[#0a0a0a] transition-all duration-300">
+        <div class={`reveal reveal-delay-${i + 1} glass rounded-2xl p-6 sm:p-8 card-hover tilt-card group`}>
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-4 sm:mb-6 group-hover:bg-accent group-hover:text-[#0a0a0a] transition-all duration-300">
             <Fragment set:html={category.icon} />
           </div>
           <h3 class="font-display font-semibold text-xl text-light mb-4">{category.title}</h3>
