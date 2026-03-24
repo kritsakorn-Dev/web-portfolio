@@ -1,0 +1,86 @@
+---
+const experiences = [
+  {
+    role: 'Full-stack Developer Intern',
+    company: 'Baycoms',
+    period: 'Present',
+    description: 'Working on enterprise web applications, collaborating with senior developers, and gaining hands-on experience with modern development workflows and best practices.',
+    tags: ['Web Development', 'Team Collaboration', 'Agile'],
+    current: true,
+  },
+  {
+    role: 'Computer Science Student',
+    company: 'Rangsit University',
+    period: 'Current',
+    description: 'Pursuing a degree in Computer Science with a focus on software engineering, algorithms, and web technologies. Actively participating in coding projects and competitions.',
+    tags: ['Computer Science', 'Algorithms', 'Software Engineering'],
+    current: true,
+  },
+];
+
+const marqueeItems = [
+  'React', 'Next.js', 'TypeScript', 'Node.js', 'TailwindCSS', 'MongoDB',
+  'PostgreSQL', 'Docker', 'Git', 'Figma', 'Python', 'Vue.js',
+];
+---
+
+<section id="experience" class="py-32 relative overflow-hidden">
+  <!-- Marquee -->
+  <div class="mb-16 overflow-hidden">
+    <div class="flex animate-marquee whitespace-nowrap">
+      {[...marqueeItems, ...marqueeItems].map((item) => (
+        <span class="mx-6 text-5xl md:text-7xl font-display font-bold text-contrast/[0.04] select-none">
+          {item}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 md:px-12">
+    <!-- Section Header -->
+    <div class="text-center mb-20 reveal">
+      <span class="text-accent font-medium text-sm uppercase tracking-[0.2em]">Journey</span>
+      <h2 class="font-display font-bold text-4xl md:text-5xl lg:text-6xl mt-4 leading-tight">
+        Experience & <span class="gradient-text">Education</span>
+      </h2>
+    </div>
+
+    <!-- Timeline -->
+    <div class="max-w-3xl mx-auto space-y-8">
+      {experiences.map((exp, i) => (
+        <div class={`reveal reveal-delay-${i + 1} relative`}>
+          <div class="glass rounded-2xl p-8 md:p-10 card-hover group">
+            <!-- Current indicator -->
+            {exp.current && (
+              <div class="absolute -top-3 left-8 flex items-center gap-2 px-3 py-1 rounded-full bg-accent text-[#0a0a0a] text-xs font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#0a0a0a] animate-pulse"></span>
+                {exp.period}
+              </div>
+            )}
+
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+              <div>
+                <h3 class="font-display font-semibold text-2xl text-light group-hover:text-accent transition-colors duration-300">
+                  {exp.role}
+                </h3>
+                <p class="text-accent font-medium mt-1">{exp.company}</p>
+              </div>
+            </div>
+
+            <p class="text-muted leading-relaxed mb-6">
+              {exp.description}
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              {exp.tags.map((tag) => (
+                <span class="px-3 py-1 text-xs font-medium text-muted bg-contrast/5 rounded-full">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,128 @@
+---
+const navLinks = [
+  { name: 'About', href: '#about' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Contact', href: '#contact' },
+];
+---
+
+<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] py-5">
+  <div id="nav-pill" class="max-w-7xl mx-auto px-6 md:px-10 py-0 flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] rounded-none">
+    <!-- Logo -->
+    <a href="#" class="text-2xl font-display font-bold tracking-tight group shrink-0">
+      <span class="text-light group-hover:text-accent transition-colors duration-300">K</span><span class="text-muted group-hover:text-light transition-colors duration-300">.</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden md:flex items-center gap-8">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="text-sm text-muted hover:text-light font-medium tracking-wide uppercase line-hover transition-colors duration-300"
+          >
+            {link.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <!-- CTA -->
+    <div class="hidden md:flex items-center shrink-0">
+      <a
+        href="#contact"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-accent text-[#0a0a0a] text-sm font-semibold hover:bg-accent-light transition-all duration-300"
+      >
+        Let's talk
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+      </a>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button id="mobile-toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu">
+      <span class="w-6 h-0.5 bg-light transition-all duration-300 origin-center" id="bar1"></span>
+      <span class="w-6 h-0.5 bg-light transition-all duration-300" id="bar2"></span>
+      <span class="w-4 h-0.5 bg-light transition-all duration-300 origin-center" id="bar3"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden fixed inset-0 bg-dark/[0.98] backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500">
+    {navLinks.map((link, i) => (
+      <a
+        href={link.href}
+        class="mobile-link text-3xl font-display font-semibold text-light/80 hover:text-accent transition-all duration-300"
+        style={`transition-delay: ${i * 0.08}s`}
+      >
+        {link.name}
+      </a>
+    ))}
+    <a
+      href="#contact"
+      class="mt-4 px-8 py-3 rounded-full bg-accent text-[#0a0a0a] font-semibold text-lg"
+    >
+      Let's talk
+    </a>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('mobile-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+  const navbar = document.getElementById('navbar');
+  const navPill = document.getElementById('nav-pill');
+  let isOpen = false;
+
+  // ====== Floating pill navbar on scroll ======
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if (scrollY > 80) {
+      navbar?.classList.add('py-3');
+      navbar?.classList.remove('py-5');
+      navPill?.classList.add('nav-pill-scrolled');
+      navPill?.classList.remove('max-w-7xl', 'rounded-none', 'py-0', 'px-6');
+    } else {
+      navbar?.classList.remove('py-3');
+      navbar?.classList.add('py-5');
+      navPill?.classList.remove('nav-pill-scrolled');
+      navPill?.classList.add('max-w-7xl', 'rounded-none', 'py-0', 'px-6');
+    }
+  });
+
+  // ====== Mobile Menu ======
+  toggle?.addEventListener('click', () => {
+    isOpen = !isOpen;
+    if (isOpen) {
+      menu?.classList.remove('opacity-0', 'pointer-events-none');
+      menu?.classList.add('opacity-100', 'pointer-events-auto');
+      bar1?.classList.add('rotate-45', 'translate-y-[4px]');
+      bar2?.classList.add('opacity-0');
+      bar3?.classList.add('-rotate-45', '-translate-y-[4px]', 'w-6');
+      document.body.style.overflow = 'hidden';
+    } else {
+      menu?.classList.add('opacity-0', 'pointer-events-none');
+      menu?.classList.remove('opacity-100', 'pointer-events-auto');
+      bar1?.classList.remove('rotate-45', 'translate-y-[4px]');
+      bar2?.classList.remove('opacity-0');
+      bar3?.classList.remove('-rotate-45', '-translate-y-[4px]', 'w-6');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      isOpen = false;
+      menu?.classList.add('opacity-0', 'pointer-events-none');
+      menu?.classList.remove('opacity-100', 'pointer-events-auto');
+      bar1?.classList.remove('rotate-45', 'translate-y-[4px]');
+      bar2?.classList.remove('opacity-0');
+      bar3?.classList.remove('-rotate-45', '-translate-y-[4px]', 'w-6');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

@@ -1,0 +1,334 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Kritsakorn Payakmareong — Full-stack Developer based in Thailand. Currently interning at Baycoms and studying at Rangsit University." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Kritsakorn Payakmareong" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{title}</title>
+
+    <!-- CSS variables & overrides — is:inline so PostCSS won't mangle them -->
+    <style is:inline>
+      :root {
+        --c-bg: 10 10 10;
+        --c-text: 250 250 250;
+        --c-muted: 161 161 170;
+        --c-contrast: 255 255 255;
+        --c-surface: 26 26 26;
+        --c-accent: 200 255 0;
+        --c-accent-light: 212 255 51;
+      }
+      body {
+        background-color: rgb(var(--c-bg)) !important;
+        color: rgb(var(--c-text)) !important;
+      }
+      .glass {
+        background: rgb(var(--c-contrast) / 0.03) !important;
+        border-color: rgb(var(--c-contrast) / 0.06) !important;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #c8ff00, #a3e635, #4ade80) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+      }
+      ::selection { background: #c8ff00; color: #0a0a0a; }
+      .grid-pattern {
+        background-image:
+          linear-gradient(rgb(var(--c-contrast) / 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(var(--c-contrast) / 0.03) 1px, transparent 1px) !important;
+        background-size: 64px 64px;
+      }
+      .grid-pattern-sm {
+        background-image:
+          linear-gradient(rgb(var(--c-contrast) / 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgb(var(--c-contrast) / 0.04) 1px, transparent 1px) !important;
+        background-size: 32px 32px;
+      }
+      ::-webkit-scrollbar-track { background: rgb(var(--c-bg)); }
+      ::-webkit-scrollbar-thumb { background: rgb(var(--c-contrast) / 0.15); border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-contrast) / 0.25); }
+      .card-hover:hover {
+        box-shadow: 0 20px 40px rgb(var(--c-accent) / 0.15) !important;
+      }
+      .line-hover::after {
+        background: rgb(var(--c-accent)) !important;
+      }
+      .nav-pill-scrolled {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        background: rgb(var(--c-surface) / 0.85) !important;
+        border-radius: 9999px;
+        box-shadow: 0 8px 32px rgb(var(--c-contrast) / 0.08);
+        max-width: 56rem;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0.75rem 2rem;
+      }
+    </style>
+  </head>
+  <body class="bg-dark text-light antialiased selection:bg-accent selection:text-white overflow-x-hidden transition-colors duration-500">
+    <!-- Custom Cursor (desktop only) -->
+    <div id="cursor-dot" class="fixed top-0 left-0 w-3 h-3 bg-accent rounded-full pointer-events-none z-[9999] opacity-0 mix-blend-difference hidden md:block" style="transition: width 0.3s, height 0.3s, opacity 0.3s, background 0.3s;"></div>
+    <div id="cursor-ring" class="fixed top-0 left-0 w-10 h-10 border-2 border-accent/50 rounded-full pointer-events-none z-[9999] opacity-0 hidden md:block" style="transition: width 0.3s, height 0.3s, opacity 0.3s, border-color 0.3s;"></div>
+
+    <slot />
+
+    <script>
+      // ====== Custom Cursor ======
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mouseX = 0, mouseY = 0;
+      let ringX = 0, ringY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (dot) {
+          dot.style.opacity = '1';
+          dot.style.left = mouseX - 6 + 'px';
+          dot.style.top = mouseY - 6 + 'px';
+        }
+        if (ring) ring.style.opacity = '1';
+      });
+
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+        if (ring) {
+          ring.style.left = ringX - 20 + 'px';
+          ring.style.top = ringY - 20 + 'px';
+        }
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      // Cursor hover effect on interactive elements
+      document.querySelectorAll('a, button, .card-hover, input, textarea').forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          dot?.classList.add('!w-6', '!h-6', '!bg-accent');
+          ring?.classList.add('!w-16', '!h-16', '!border-accent/50');
+        });
+        el.addEventListener('mouseleave', () => {
+          dot?.classList.remove('!w-6', '!h-6', '!bg-accent');
+          ring?.classList.remove('!w-16', '!h-16', '!border-accent/50');
+        });
+      });
+
+      document.addEventListener('mouseleave', () => {
+        if (dot) dot.style.opacity = '0';
+        if (ring) ring.style.opacity = '0';
+      });
+
+      // ====== Intersection Observer for scroll animations ======
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // ====== Magnetic cursor effect on CTA buttons ======
+      document.querySelectorAll('.magnetic').forEach((btn) => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0px, 0px)';
+        });
+      });
+
+      // ====== 3D Tilt Cards ======
+      document.querySelectorAll('.tilt-card').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / centerY * -8;
+          const rotateY = (x - centerX) / centerX * 8;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+      });
+
+      // ====== Counter Animation ======
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target;
+              const target = parseInt(el.getAttribute('data-target') || '0');
+              const suffix = el.getAttribute('data-suffix') || '';
+              let current = 0;
+              const step = Math.max(1, Math.floor(target / 40));
+              const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                  current = target;
+                  clearInterval(timer);
+                }
+                el.textContent = current + suffix;
+              }, 30);
+              counterObserver.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      document.querySelectorAll('[data-target]').forEach((el) => counterObserver.observe(el));
+
+      // ====== Text Scramble Effect ======
+      document.querySelectorAll('.scramble').forEach((el) => {
+        const originalText = el.textContent || '';
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+        let isAnimating = false;
+
+        el.addEventListener('mouseenter', () => {
+          if (isAnimating) return;
+          isAnimating = true;
+          let iteration = 0;
+          const interval = setInterval(() => {
+            el.textContent = originalText
+              .split('')
+              .map((char, i) => {
+                if (char === ' ') return ' ';
+                if (i < iteration) return originalText[i];
+                return chars[Math.floor(Math.random() * chars.length)];
+              })
+              .join('');
+            iteration += 1 / 2;
+            if (iteration >= originalText.length) {
+              el.textContent = originalText;
+              clearInterval(interval);
+              isAnimating = false;
+            }
+          }, 25);
+        });
+      });
+    </script>
+
+    <style is:global>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html { cursor: none; }
+      @media (max-width: 768px) { html { cursor: auto; } }
+      a, button, input, textarea { cursor: none; }
+      @media (max-width: 768px) { a, button, input, textarea { cursor: auto; } }
+
+      /* selection moved to is:inline */
+
+      /* Reveal animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.is-visible { opacity: 1; transform: translateY(0); }
+      .reveal-delay-1 { transition-delay: 0.1s; }
+      .reveal-delay-2 { transition-delay: 0.2s; }
+      .reveal-delay-3 { transition-delay: 0.3s; }
+      .reveal-delay-4 { transition-delay: 0.4s; }
+      .reveal-delay-5 { transition-delay: 0.5s; }
+
+      a, button { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+      ::-webkit-scrollbar { width: 6px; }
+
+      /* gradient-text moved to is:inline */
+
+      .glass {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid transparent;
+        transition: background 0.5s, border-color 0.5s;
+      }
+
+      .card-hover {
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .card-hover:hover {
+        transform: translateY(-8px);
+      }
+
+      .tilt-card {
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+
+      .line-hover { position: relative; display: inline-block; }
+      .line-hover::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .line-hover:hover::after { width: 100%; }
+
+      .noise::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        opacity: 0.03;
+        z-index: 9999;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+
+      .scramble { display: inline-block; cursor: none; }
+    </style>
+  </body>
+</html>
