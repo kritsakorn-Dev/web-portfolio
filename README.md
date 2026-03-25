@@ -11,7 +11,7 @@
 | **Astro** | ^5.7.10 | Framework หลัก — Static Site Generator ที่โหลดเร็วมาก เพราะส่ง HTML ล้วนไปยัง browser โดยไม่มี JavaScript ที่ไม่จำเป็น |
 | **TailwindCSS** | ^3.4.17 | CSS Framework แบบ Utility-first ใช้เขียน style ผ่าน class โดยตรง ไม่ต้องเขียนไฟล์ CSS แยก |
 | **@astrojs/tailwind** | ^6.0.2 | Integration ที่เชื่อม Astro กับ TailwindCSS ให้ทำงานร่วมกันได้อัตโนมัติ |
-| **Sharp** | ^0.33.5 | Library สำหรับ optimize รูปภาพ (resize, compress) ตอน build |
+| **Sharp** | ^0.34.5 | Library สำหรับ optimize รูปภาพ (resize, compress) ตอน build |
 | **TypeScript** | (built-in) | Type safety — ช่วยจับ bug ตั้งแต่ตอนเขียนโค้ด |
 | **Google Fonts** | — | ฟอนต์ **Inter** (ตัวอักษรหลัก) และ **Space Grotesk** (หัวข้อ/display) |
 
@@ -92,8 +92,8 @@ portfolio/
 │   │   └── Layout.astro       # Layout หลัก (SEO, fonts, global styles)
 │   └── pages/
 │       └── index.astro        # หน้าหลักที่รวมทุก component
-├── astro.config.mjs           # ตั้งค่า Astro
 ├── tailwind.config.mjs        # ตั้งค่า TailwindCSS (สี, ฟอนต์, animation)
+├── astro.config.mjs           # ตั้งค่า Astro
 ├── tsconfig.json              # ตั้งค่า TypeScript
 └── package.json               # Dependencies และ scripts
 ```
@@ -110,4 +110,4 @@ portfolio/
 - **SEO สมบูรณ์** — Open Graph, Twitter Card, semantic HTML
 - **Noise Texture Overlay** — พื้นผิว noise ละเอียดให้ความรู้สึกพรีเมียม
 - **Marquee Text** — แถบตัวอักษรเทคโนโลยีเลื่อนอัตโนมัติ
-- **Dark Theme** — ธีมมืดพร้อมสี accent (Indigo + Lime Green)
+- **Dark Theme** — ธีมมืดพร้อมสี accent (Lime Green)
