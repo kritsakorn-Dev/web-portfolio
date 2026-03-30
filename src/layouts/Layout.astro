@@ -39,6 +39,26 @@ const { title, description = "Kritsakorn Payakmareong — Full-stack Developer b
 
     <title>{title}</title>
 
+    <!-- Adjusted fallback fonts — metrics tuned to match Inter & Space Grotesk, so font swap causes near-zero CLS -->
+    <style is:inline>
+      @font-face {
+        font-family: 'Inter Fallback';
+        src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('sans-serif');
+        ascent-override: 90.2%;
+        descent-override: 22.5%;
+        line-gap-override: 0%;
+        size-adjust: 107%;
+      }
+      @font-face {
+        font-family: 'Space Grotesk Fallback';
+        src: local('Arial'), local('Helvetica Neue'), local('Helvetica'), local('sans-serif');
+        ascent-override: 93.6%;
+        descent-override: 23.2%;
+        line-gap-override: 0%;
+        size-adjust: 100%;
+      }
+    </style>
+
     <!-- CSS variables & overrides — is:inline so PostCSS won't mangle them -->
     <style is:inline>
       :root {

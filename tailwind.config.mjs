@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Inter Fallback', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Space Grotesk', 'Space Grotesk Fallback', 'system-ui', 'sans-serif'],
       },
       colors: {
         dark: 'rgb(var(--c-bg) / <alpha-value>)',
