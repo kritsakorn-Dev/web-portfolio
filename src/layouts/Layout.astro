@@ -27,10 +27,12 @@ const { title, description = "Kritsakorn Payakmareong — Full-stack Developer b
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <!-- Fonts -->
+    <!-- Fonts — non-render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" /></noscript>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -111,149 +113,152 @@ const { title, description = "Kritsakorn Payakmareong — Full-stack Developer b
     <slot />
 
     <script>
-      // ====== Custom Cursor ======
-      const dot = document.getElementById('cursor-dot');
-      const ring = document.getElementById('cursor-ring');
-      let mouseX = 0, mouseY = 0;
-      let ringX = 0, ringY = 0;
+      // ====== Idle scheduler (rIC with fallback) ======
+      const whenIdle = (cb, timeout = 2000) =>
+        'requestIdleCallback' in window
+          ? requestIdleCallback(cb, { timeout })
+          : setTimeout(cb, 1);
 
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        if (dot) {
-          dot.style.opacity = '1';
-          dot.style.left = mouseX - 6 + 'px';
-          dot.style.top = mouseY - 6 + 'px';
-        }
-        if (ring) ring.style.opacity = '1';
-      });
+      // ====== Intersection Observer for scroll animations — first idle ======
+      whenIdle(() => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        );
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-      function animateRing() {
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
-        if (ring) {
-          ring.style.left = ringX - 20 + 'px';
-          ring.style.top = ringY - 20 + 'px';
-        }
-        requestAnimationFrame(animateRing);
-      }
-      animateRing();
+        // ====== Counter Animation ======
+        const counterObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-target') || '0');
+                const suffix = el.getAttribute('data-suffix') || '';
+                let current = 0;
+                const step = Math.max(1, Math.floor(target / 40));
+                const timer = setInterval(() => {
+                  current += step;
+                  if (current >= target) { current = target; clearInterval(timer); }
+                  el.textContent = current + suffix;
+                }, 30);
+                counterObserver.unobserve(el);
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+        document.querySelectorAll('[data-target]').forEach((el) => counterObserver.observe(el));
+      }, 300);
 
-      // Cursor hover effect on interactive elements
-      document.querySelectorAll('a, button, .card-hover, input, textarea').forEach((el) => {
-        el.addEventListener('mouseenter', () => {
-          dot?.classList.add('!w-6', '!h-6', '!bg-accent');
-          ring?.classList.add('!w-16', '!h-16', '!border-accent/50');
-        });
-        el.addEventListener('mouseleave', () => {
-          dot?.classList.remove('!w-6', '!h-6', '!bg-accent');
-          ring?.classList.remove('!w-16', '!h-16', '!border-accent/50');
-        });
-      });
+      // ====== Interactive effects — deferred until idle ======
+      whenIdle(() => {
+        // Custom Cursor (desktop only)
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        if (dot && ring) {
+          let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
 
-      document.addEventListener('mouseleave', () => {
-        if (dot) dot.style.opacity = '0';
-        if (ring) ring.style.opacity = '0';
-      });
-
-      // ====== Intersection Observer for scroll animations ======
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
+          document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.opacity = '1';
+            dot.style.left = mouseX - 6 + 'px';
+            dot.style.top = mouseY - 6 + 'px';
+            ring.style.opacity = '1';
           });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-      );
-      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-      // ====== Magnetic cursor effect on CTA buttons ======
-      document.querySelectorAll('.magnetic').forEach((btn) => {
-        btn.addEventListener('mousemove', (e) => {
-          const rect = btn.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-        });
-        btn.addEventListener('mouseleave', () => {
-          btn.style.transform = 'translate(0px, 0px)';
-        });
-      });
+          const animateRing = () => {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            ring.style.left = ringX - 20 + 'px';
+            ring.style.top = ringY - 20 + 'px';
+            requestAnimationFrame(animateRing);
+          };
+          animateRing();
 
-      // ====== 3D Tilt Cards ======
-      document.querySelectorAll('.tilt-card').forEach((card) => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const rotateX = (y - centerY) / centerY * -8;
-          const rotateY = (x - centerX) / centerX * 8;
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-        });
-      });
-
-      // ====== Counter Animation ======
-      const counterObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target;
-              const target = parseInt(el.getAttribute('data-target') || '0');
-              const suffix = el.getAttribute('data-suffix') || '';
-              let current = 0;
-              const step = Math.max(1, Math.floor(target / 40));
-              const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                  current = target;
-                  clearInterval(timer);
-                }
-                el.textContent = current + suffix;
-              }, 30);
-              counterObserver.unobserve(el);
-            }
+          document.querySelectorAll('a, button, .card-hover, input, textarea').forEach((el) => {
+            el.addEventListener('mouseenter', () => {
+              dot.classList.add('!w-6', '!h-6', '!bg-accent');
+              ring.classList.add('!w-16', '!h-16', '!border-accent/50');
+            });
+            el.addEventListener('mouseleave', () => {
+              dot.classList.remove('!w-6', '!h-6', '!bg-accent');
+              ring.classList.remove('!w-16', '!h-16', '!border-accent/50');
+            });
           });
-        },
-        { threshold: 0.5 }
-      );
-      document.querySelectorAll('[data-target]').forEach((el) => counterObserver.observe(el));
 
-      // ====== Text Scramble Effect ======
-      document.querySelectorAll('.scramble').forEach((el) => {
-        const originalText = el.textContent || '';
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
-        let isAnimating = false;
+          document.addEventListener('mouseleave', () => {
+            dot.style.opacity = '0';
+            ring.style.opacity = '0';
+          });
+        }
 
-        el.addEventListener('mouseenter', () => {
-          if (isAnimating) return;
-          isAnimating = true;
-          let iteration = 0;
-          const interval = setInterval(() => {
-            el.textContent = originalText
-              .split('')
-              .map((char, i) => {
-                if (char === ' ') return ' ';
-                if (i < iteration) return originalText[i];
-                return chars[Math.floor(Math.random() * chars.length)];
-              })
-              .join('');
-            iteration += 1 / 2;
-            if (iteration >= originalText.length) {
-              el.textContent = originalText;
-              clearInterval(interval);
-              isAnimating = false;
-            }
-          }, 25);
+        // ====== Magnetic cursor effect ======
+        document.querySelectorAll('.magnetic').forEach((btn) => {
+          btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+          });
+          btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0px, 0px)';
+          });
         });
-      });
+
+        // ====== 3D Tilt Cards ======
+        document.querySelectorAll('.tilt-card').forEach((card) => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / centerY * -8;
+            const rotateY = (x - centerX) / centerX * 8;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+          });
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+          });
+        });
+
+        // ====== Text Scramble Effect ======
+        document.querySelectorAll('.scramble').forEach((el) => {
+          const originalText = el.textContent || '';
+          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&';
+          let isAnimating = false;
+          el.addEventListener('mouseenter', () => {
+            if (isAnimating) return;
+            isAnimating = true;
+            let iteration = 0;
+            const interval = setInterval(() => {
+              el.textContent = originalText
+                .split('')
+                .map((char, i) => {
+                  if (char === ' ') return ' ';
+                  if (i < iteration) return originalText[i];
+                  return chars[Math.floor(Math.random() * chars.length)];
+                })
+                .join('');
+              iteration += 1 / 2;
+              if (iteration >= originalText.length) {
+                el.textContent = originalText;
+                clearInterval(interval);
+                isAnimating = false;
+              }
+            }, 25);
+          });
+        });
+      }, 1000);
     </script>
 
     <style is:global>

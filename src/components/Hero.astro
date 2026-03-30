@@ -2,9 +2,9 @@
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <!-- Background gradient orbs -->
-  <div class="absolute top-1/4 -left-20 w-64 h-64 md:w-96 md:h-96 md:-left-32 bg-accent/10 rounded-full blur-[128px] animate-pulse"></div>
-  <div class="absolute bottom-1/4 -right-20 w-64 h-64 md:w-96 md:h-96 md:-right-32 bg-purple-500/10 rounded-full blur-[128px] animate-pulse" style="animation-delay: 2s"></div>
+  <!-- Background gradient orbs — GPU-isolated to avoid blocking main thread paint -->
+  <div class="absolute top-1/4 -left-20 w-64 h-64 md:w-96 md:h-96 md:-left-32 bg-accent/10 rounded-full blur-[128px] animate-pulse" style="will-change:transform;transform:translateZ(0);contain:paint;"></div>
+  <div class="absolute bottom-1/4 -right-20 w-64 h-64 md:w-96 md:h-96 md:-right-32 bg-purple-500/10 rounded-full blur-[128px] animate-pulse" style="will-change:transform;transform:translateZ(0);contain:paint;animation-delay:2s;"></div>
 
   <!-- Grid pattern overlay -->
   <div class="absolute inset-0 grid-pattern"></div>
