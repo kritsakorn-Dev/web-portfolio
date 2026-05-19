@@ -2,49 +2,73 @@
 const projects = [
   {
     title: 'Field Service Management (PWA)',
-    description: 'A Field Service Management web application for a plastic injection machine sales and maintenance company, supporting both a web dashboard and a mobile PWA for field technicians.',
-    tags: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Supabase'],
-    image: 'from-blue-500/20 to-cyan-900/20',
+    description: 'A Field Service Management system for a plastic injection machine sales & maintenance company. Admins assign and track jobs in real-time while field technicians check-in/out and submit repair details via a mobile PWA. Includes machine history search and report exports.',
+    tags: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase', 'Vercel'],
+    gradient: 'from-blue-500/20 to-cyan-900/20',
+    image: '/picture/projects/fsm.png',
     year: '2026',
     link: '#',
   },
   {
-    title: 'Omnichannel Platform',
-    description: 'A real-time omnichannel web application that centralizes messages from multiple platforms into a single system, enabling seamless communication without switching between apps.',
-    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Redis', 'Socket.IO'],
-    image: 'from-emerald-500/20 to-teal-900/20',
+    title: 'Omnichannel Chat Platform',
+    description: 'A real-time omnichannel chat platform that unifies Facebook, LINE, Gmail, TikTok, Telegram and Instagram into one inbox. Features auto-assignment, SLA/CSAT tracking, queue management and reporting dashboard powered by Socket.IO.',
+    tags: ['React', 'TypeScript', 'Redux Toolkit', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'Redis', 'Socket.IO'],
+    gradient: 'from-violet-500/20 to-purple-900/20',
+    image: '/picture/projects/omnichat.png',
     year: '2026',
     link: '#',
   },
   {
-    title: 'PPP Green Service',
-    description: 'A dashboard-based data management web application for a palm oil business to collect and manage vehicle license plate image data captured from a mobile application.',
-    tags: ['JavaScript', 'Node.js', 'Express.js', 'MySQL'],
-    image: 'from-lime-500/20 to-green-900/20',
+    title: 'PPP Green Complex',
+    description: 'A web application for a palm oil business that receives and displays truck data from an Android app in real-time via Server-Sent Events. Includes license plate uploads, statistics dashboard, JWT auth, role-based access control and Thai/English support.',
+    tags: ['Node.js', 'Express.js', 'MySQL', 'Vanilla JS', 'SSE', 'JWT'],
+    gradient: 'from-lime-500/20 to-green-900/20',
+    image: '/picture/projects/ppp-green.png',
     year: '2026',
     link: '#',
   },
   {
-    title: 'Telemedicine UI Design',
-    description: 'Designed wireframes and high-fidelity prototypes for a telemedicine platform with a strong focus on UX principles and clean visual hierarchy.',
-    tags: ['Figma', 'Adobe Illustrator', 'UX Design'],
-    image: 'from-pink-500/20 to-rose-900/20',
+    title: 'Telemedicine App UI',
+    description: 'High-fidelity UI design for a telemedicine platform — login/register, doctor discovery, booking, payment, video consultation and appointment management. Designed with a strong focus on UX principles.',
+    tags: ['Figma', 'Adobe Illustrator', 'UX/UI'],
+    gradient: 'from-pink-500/20 to-rose-900/20',
+    image: '/picture/projects/telemedicine.png',
     year: '2025',
     link: '#',
   },
   {
+    title: 'Image Processing — Object Detection',
+    description: 'A web app for real-time object detection that supports both image uploads and live webcam input. Built with JavaScript and React.',
+    tags: ['React', 'JavaScript', 'Computer Vision'],
+    gradient: 'from-sky-500/20 to-indigo-900/20',
+    image: '/picture/projects/object-detection.png',
+    year: '2024',
+    link: '#',
+  },
+  {
+    title: 'Read for the Blind — UI Design',
+    description: 'UI design for a mobile app that lets volunteers record books for the visually impaired. Designed primarily in Adobe Illustrator with Figma.',
+    tags: ['Adobe Illustrator', 'Figma', 'UX/UI'],
+    gradient: 'from-indigo-500/20 to-blue-900/20',
+    image: '/picture/projects/read-for-blind.png',
+    year: '2024',
+    link: '#',
+  },
+  {
     title: 'LINE Official Account Chatbot',
-    description: 'A clothing store chatbot solution built on LINE Official Account, integrated with Dialogflow and a Node.js webhook to automate customer interactions, with Firebase for real-time data storage.',
+    description: 'A clothing store chatbot built on LINE Official Account with Dialogflow and a Node.js webhook for automated customer interactions. Real-time data backed by Firebase.',
     tags: ['LINE OA', 'Dialogflow', 'Node.js', 'Firebase'],
-    image: 'from-amber-500/20 to-orange-900/20',
+    gradient: 'from-amber-500/20 to-orange-900/20',
+    image: '/picture/projects/line-oa.png',
     year: '2023',
     link: '#',
   },
   {
-    title: 'E-Commerce Platform',
-    description: 'A full-stack e-commerce platform for computer accessories with a PHP and MySQL backend, featuring a responsive frontend built with HTML, CSS, JavaScript, and Tailwind CSS.',
+    title: 'E-Commerce — CONNECT',
+    description: 'A full-stack e-commerce platform for computer accessories with auth, cart, checkout, order management and an admin dashboard. PHP/MySQL backend with a responsive HTML/CSS/JS frontend.',
     tags: ['PHP', 'MySQL', 'JavaScript', 'Tailwind CSS'],
-    image: 'from-violet-500/20 to-purple-900/20',
+    gradient: 'from-fuchsia-500/20 to-purple-900/20',
+    image: '/picture/projects/ecommerce-connect.png',
     year: '2023',
     link: '#',
   },
@@ -74,15 +98,26 @@ const projects = [
           class={`reveal reveal-delay-${(i % 4) + 1} group block rounded-3xl overflow-hidden glass card-hover tilt-card`}
         >
           <!-- Project Image/Preview -->
-          <div class={`aspect-video bg-gradient-to-br ${project.image} relative overflow-hidden`}>
+          <div class={`aspect-video bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
             <div class="absolute inset-0 grid-pattern-sm"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <div class="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-white"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-              </div>
+            {project.image && (
+              <img
+                src={project.image}
+                alt={project.title}
+                class="project-img absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                decoding="async"
+                onerror="this.style.display='none'"
+              />
+            )}
+            <!-- Hover overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <!-- Arrow indicator -->
+            <div class="absolute bottom-4 left-4 w-11 h-11 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-2 transition-all duration-500">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
             </div>
             <!-- Year badge -->
-            <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-xs text-white/70">
+            <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md text-xs text-white/90 font-medium">
               {project.year}
             </div>
           </div>
