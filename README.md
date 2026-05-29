@@ -1,28 +1,28 @@
 # Kritsakorn Payakmareong — Portfolio
 
-เว็บไซต์ Portfolio ส่วนตัว ออกแบบให้โหลดเร็ว, SEO ดี และดีไซน์ทันสมัย
+A personal portfolio website designed to load fast, with strong SEO and a modern design.
 
 ---
 
-## Tech Stack ที่ใช้
+## Tech Stack
 
-| เทคโนโลยี | เวอร์ชัน | หน้าที่ |
+| Technology | Version | Purpose |
 |---|---|---|
-| **Astro** | ^5.7.10 | Framework หลัก — Static Site Generator ที่โหลดเร็วมาก เพราะส่ง HTML ล้วนไปยัง browser โดยไม่มี JavaScript ที่ไม่จำเป็น |
-| **TailwindCSS** | ^3.4.17 | CSS Framework แบบ Utility-first ใช้เขียน style ผ่าน class โดยตรง ไม่ต้องเขียนไฟล์ CSS แยก |
-| **@astrojs/tailwind** | ^6.0.2 | Integration ที่เชื่อม Astro กับ TailwindCSS ให้ทำงานร่วมกันได้อัตโนมัติ |
-| **Sharp** | ^0.34.5 | Library สำหรับ optimize รูปภาพ (resize, compress) ตอน build |
-| **TypeScript** | (built-in) | Type safety — ช่วยจับ bug ตั้งแต่ตอนเขียนโค้ด |
-| **Google Fonts** | — | ฟอนต์ **Inter** (ตัวอักษรหลัก) และ **Space Grotesk** (หัวข้อ/display) |
+| **Astro** | ^5.7.10 | Main framework — a Static Site Generator that loads very fast by shipping pure HTML to the browser without unnecessary JavaScript |
+| **TailwindCSS** | ^3.4.17 | Utility-first CSS framework that lets you style directly via classes without writing separate CSS files |
+| **@astrojs/tailwind** | ^6.0.2 | Integration that connects Astro with TailwindCSS so they work together automatically |
+| **Sharp** | ^0.34.5 | Library for image optimization (resize, compress) at build time |
+| **TypeScript** | (built-in) | Type safety — helps catch bugs while writing code |
+| **Google Fonts** | — | **Inter** font (main body text) and **Space Grotesk** (headings/display) |
 
 ---
 
-## สิ่งที่ต้องมีก่อนรัน (Prerequisites)
+## Prerequisites
 
-- **Node.js** เวอร์ชัน 18 ขึ้นไป — [ดาวน์โหลดได้ที่ nodejs.org](https://nodejs.org/)
-- **npm** (มาพร้อมกับ Node.js)
+- **Node.js** version 18 or higher — [download from nodejs.org](https://nodejs.org/)
+- **npm** (comes with Node.js)
 
-ตรวจสอบว่าติดตั้งแล้วด้วยคำสั่ง:
+Verify your installation with:
 
 ```bash
 node -v
@@ -31,83 +31,83 @@ npm -v
 
 ---
 
-## วิธีรันโปรเจค
+## How to Run the Project
 
-### 1. Clone โปรเจค
+### 1. Clone the project
 
 ```bash
 git clone <repository-url>
 cd portfolio
 ```
 
-### 2. ติดตั้ง Dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. รัน Development Server
+### 3. Run the development server
 
 ```bash
 npm run dev
 ```
 
-เปิดเบราว์เซอร์ไปที่ **http://localhost:4321** เพื่อดูเว็บไซต์
+Open your browser at **http://localhost:4321** to view the website.
 
-### 4. Build สำหรับ Production
+### 4. Build for production
 
 ```bash
 npm run build
 ```
 
-ไฟล์ที่ build เสร็จจะอยู่ในโฟลเดอร์ `dist/`
+The built files will be located in the `dist/` folder.
 
-### 5. Preview Production Build
+### 5. Preview the production build
 
 ```bash
 npm run preview
 ```
 
-ใช้ดูตัวอย่างเว็บที่ build แล้วก่อน deploy จริง
+Use this to preview the built site before deploying it for real.
 
 ---
 
-## โครงสร้างโปรเจค
+## Project Structure
 
 ```
 portfolio/
 ├── public/
-│   └── favicon.svg            # ไอคอนของเว็บ
+│   └── favicon.svg            # Website icon
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.astro       # แถบนำทาง (เลื่อนแล้วเปลี่ยนเป็น floating pill)
-│   │   ├── Hero.astro         # หน้าแรก hero section
-│   │   ├── About.astro        # เกี่ยวกับตัวเอง + สถิติ
-│   │   ├── Skills.astro       # ทักษะ/เทคโนโลยีที่ใช้
-│   │   ├── Projects.astro     # ผลงาน/โปรเจค
-│   │   ├── Experience.astro   # ประสบการณ์ + การศึกษา
-│   │   ├── Contact.astro      # ช่องทางติดต่อ
-│   │   └── Footer.astro       # ส่วนท้ายเว็บ
+│   │   ├── Navbar.astro       # Navigation bar (turns into a floating pill on scroll)
+│   │   ├── Hero.astro         # Landing hero section
+│   │   ├── About.astro        # About me + statistics
+│   │   ├── Skills.astro       # Skills/technologies used
+│   │   ├── Projects.astro     # Works/projects
+│   │   ├── Experience.astro   # Experience + education
+│   │   ├── Contact.astro      # Contact channels
+│   │   └── Footer.astro       # Website footer
 │   ├── layouts/
-│   │   └── Layout.astro       # Layout หลัก (SEO, fonts, global styles)
+│   │   └── Layout.astro       # Main layout (SEO, fonts, global styles)
 │   └── pages/
-│       └── index.astro        # หน้าหลักที่รวมทุก component
-├── tailwind.config.mjs        # ตั้งค่า TailwindCSS (สี, ฟอนต์, animation)
-├── astro.config.mjs           # ตั้งค่า Astro
-├── tsconfig.json              # ตั้งค่า TypeScript
-└── package.json               # Dependencies และ scripts
+│       └── index.astro        # Main page composing all components
+├── tailwind.config.mjs        # TailwindCSS config (colors, fonts, animation)
+├── astro.config.mjs           # Astro config
+├── tsconfig.json              # TypeScript config
+└── package.json               # Dependencies and scripts
 ```
 
 ---
 
-## ฟีเจอร์หลัก
+## Key Features
 
-- **Responsive Design** — รองรับทุกขนาดหน้าจอ (mobile-first)
-- **Floating Pill Navbar** — แถบนำทางเปลี่ยนเป็นทรงแคปซูลลอยเมื่อเลื่อนหน้า
-- **Scroll Reveal Animations** — แอนิเมชันเมื่อ element เลื่อนเข้ามาในหน้าจอ (Intersection Observer)
-- **Magnetic Cursor** — ปุ่ม CTA มีเอฟเฟกต์แม่เหล็กตามเมาส์
-- **Glass Morphism** — การ์ดแบบกระจกขุ่นพร้อม hover lift effect
-- **SEO สมบูรณ์** — Open Graph, Twitter Card, semantic HTML
-- **Noise Texture Overlay** — พื้นผิว noise ละเอียดให้ความรู้สึกพรีเมียม
-- **Marquee Text** — แถบตัวอักษรเทคโนโลยีเลื่อนอัตโนมัติ
-- **Dark Theme** — ธีมมืดพร้อมสี accent (Lime Green)
+- **Responsive Design** — supports every screen size (mobile-first)
+- **Floating Pill Navbar** — the navigation bar morphs into a floating capsule on scroll
+- **Scroll Reveal Animations** — animations triggered as elements enter the viewport (Intersection Observer)
+- **Magnetic Cursor** — CTA buttons feature a magnetic-mouse effect
+- **Glass Morphism** — frosted-glass cards with a hover lift effect
+- **Comprehensive SEO** — Open Graph, Twitter Card, semantic HTML
+- **Noise Texture Overlay** — subtle noise surface for a premium feel
+- **Marquee Text** — auto-scrolling technology text strip
+- **Dark Theme** — dark theme paired with an accent color (Lime Green)
